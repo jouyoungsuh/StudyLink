@@ -20,8 +20,8 @@ class AccountControllerTest {
     @Test
     void signUpTest() throws Exception {
         mockMvc.perform(get("/signUp"))
-                .andExpect(view().name("account/signUp"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(view().name("account/signUp"));
     }
 
 }
