@@ -48,8 +48,7 @@
             <h1>Registration Form</h1>
         </div>
         <div class="row justify-content-center">
-            <form class="needs-validation col-sm-6" action="#"
-                  th:action="@{/signup}" th:object="${signUpForm}" method="post" novalidate>
+            <form class="needs-validation col-sm-6" action="#" th:action="@{/signup}" th:object="${signUpForm}" method="post" novalidate>
                 <div class="form-group">
                     <label for="username">Username</label>
                     <input id="username" type="text" th:field="*{username}" class="form-control"
