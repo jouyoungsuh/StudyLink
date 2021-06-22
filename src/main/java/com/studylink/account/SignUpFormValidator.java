@@ -22,6 +22,7 @@ public class SignUpFormValidator implements Validator {
         return aClass.isAssignableFrom(SignUpForm.class);
     }
 
+    // Error handling depending on the situations, such as wrong email/username input
     @Override
     public void validate(Object object, Errors errors) {
         SignUpForm signUpForm = (SignUpForm)object;

@@ -56,4 +56,9 @@ public class Account {
     public void generateEmailVerificationToken() {
         this.emailVerificationToken = UUID.randomUUID().toString();
     }
+
+    public void configurate() {
+        this.setEmailVerified(true);
+        this.setCreatedAt(LocalDateTime.now());
+    }
 }

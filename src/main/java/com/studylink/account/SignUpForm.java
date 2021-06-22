@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.Length;
 @Data
 public class SignUpForm {
 
+    // Restrictions given by annotations
     @NotBlank
     @Length(min = 3, max = 20)
     @Pattern(regexp = "^[A-Za-z0-9_-]{3,20}$")

@@ -17,6 +17,7 @@ public class AccountService {
     private final JavaMailSender javaMailSender;
     private final PasswordEncoder passwordEncoder;
 
+    // Saves the new account, and generate corresponding verification token, and send it to the user by email.
     @Transactional
     public void processNewAccount(SignUpForm signUpForm) {
         Account newAccount = saveNewAccount(signUpForm);
@@ -24,6 +25,7 @@ public class AccountService {
         sendSignUpConfirmEmail(newAccount);
     }
 
+    // Method that saves the information of new user account
     private Account saveNewAccount(@Valid SignUpForm signUpForm) {
         Account account = Account.builder()
                 .email(signUpForm.getEmail())
@@ -37,6 +39,7 @@ public class AccountService {
         return newAccount;
     }
 
+    // Method that sends sign up confirmation email. TODO: Yet done only locally.
     private void sendSignUpConfirmEmail(Account newAccount) {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(newAccount.getEmail());
