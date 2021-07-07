@@ -61,4 +61,8 @@ public class Account {
         this.setEmailVerified(true);
         this.setCreatedAt(LocalDateTime.now());
     }
+
+    public boolean isValidToken(String token) {
+        return this.emailVerificationToken.equals(token);
+    }
 }

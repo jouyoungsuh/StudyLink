@@ -62,7 +62,7 @@ public class AccountController {
             return "account/verified-email";
         }
 
-        if (!account.getEmailVerificationToken().equals(token)) {
+        if (!account.isValidToken(token)) {
             model.addAttribute("error", "wrong.token");
             return "account/verified-email";
         }
