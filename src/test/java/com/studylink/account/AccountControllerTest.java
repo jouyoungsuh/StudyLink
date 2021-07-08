@@ -16,6 +16,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.then;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -42,7 +45,8 @@ class AccountControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("account/signUp"))
-                .andExpect(model().attributeExists("signUpForm"));
+                .andExpect(model().attributeExists("signUpForm"))
+                .andExpect(unauthenticated());
     }
 
     @DisplayName("Check correct input parameters in sign up form")
@@ -57,7 +61,8 @@ class AccountControllerTest {
                 .param("password", "789456123")
                 .with(csrf()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/"));
+                .andExpect(view().name("redirect:/"))
+                .andExpect(authenticated().withUsername("helloWorld"));
 
         // EDIT: Need to check the verification token is not null.
         Account account = accountRepository.findByEmail("helloWorld@email.com");
@@ -77,7 +82,8 @@ class AccountControllerTest {
                 .param("password", "111")
                 .with(csrf()))
                 .andExpect(status().isOk())
-                .andExpect(view().name("account/signUp"));
+                .andExpect(view().name("account/signUp"))
+                .andExpect(unauthenticated());
     }
 
     @DisplayName("Check email verification token works as intended when given correct input")
@@ -87,7 +93,7 @@ class AccountControllerTest {
         Account account = Account.builder()
                 .email("helloWorld@email.com")
                 .password("789456123")
-                .username("hello")
+                .username("helloWorld")
                 .build();
         Account newAccount = accountRepository.save(account);
         newAccount.generateEmailVerificationToken();
@@ -100,7 +106,8 @@ class AccountControllerTest {
                 .andExpect(model().attributeDoesNotExist("error"))
                 .andExpect(model().attributeExists("username"))
                 .andExpect(model().attributeExists("numberOfUser"))
-                .andExpect(view().name("account/verified-email"));
+                .andExpect(view().name("account/verified-email"))
+                .andExpect(authenticated().withUsername("helloWorld"));
     }
 
     @DisplayName("Check email verification webpage does not work if there's no input / incorrect token")
@@ -112,7 +119,8 @@ class AccountControllerTest {
                 .param("email", "hello@email.com"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("error"))
-                .andExpect(view().name("account/verified-email"));
+                .andExpect(view().name("account/verified-email"))
+                .andExpect(unauthenticated());
     }
 
 

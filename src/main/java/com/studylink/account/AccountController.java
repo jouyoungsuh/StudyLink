@@ -45,7 +45,8 @@ public class AccountController {
         }
 
         // Refactored into account service
-        accountService.processNewAccount(signUpForm);
+        Account newAccount = accountService.processNewAccount(signUpForm);
+        accountService.login(newAccount);
         return "redirect:/";
     }
 
@@ -69,6 +70,7 @@ public class AccountController {
 
         // Set necessary changes to the user account such as account creation date and etc
         account.configurate();
+        accountService.login(account);
 
         model.addAttribute("numberOfUser", accountRepository.count());
         model.addAttribute("username", account.getUsername());
