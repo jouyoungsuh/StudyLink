@@ -27,11 +27,11 @@ public class SignUpFormValidator implements Validator {
     public void validate(Object object, Errors errors) {
         SignUpForm signUpForm = (SignUpForm)object;
         if (accountRepository.existsByEmail(signUpForm.getEmail())) {
-            errors.rejectValue("email", "invalid.email", new Object[]{signUpForm.getEmail()}, "Duplicated email.");
+            errors.rejectValue("email", "invalid.email", new Object[]{signUpForm.getEmail()}, "Duplicated email");
         }
 
         if (accountRepository.existsByUsername(signUpForm.getUsername())) {
-            errors.rejectValue("username", "invalid.username", new Object[]{signUpForm.getEmail()}, "Duplicated username.");
+            errors.rejectValue("username", "invalid.username", new Object[]{signUpForm.getEmail()}, "Duplicated username");
         }
     }
 }
