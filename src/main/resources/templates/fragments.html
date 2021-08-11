@@ -49,7 +49,9 @@
         </a>
       </li>
       <li class="nav-item" sec:authorize="isAuthenticated()">
-        <i class="fa fa-plus" aria-hidden="true"></i> Create Study Room>
+        <a class="nav-link btn btn-outline-primary" th:href="@{/notifications}">
+          <i class="fa fa-plus" aria-hidden="true"></i> Create a Study Room
+        </a>
       </li>
       <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
         <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown"

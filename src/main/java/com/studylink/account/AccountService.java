@@ -46,19 +46,21 @@ public class AccountService {
 
     // Method that sends sign up confirmation email. TODO: Yet done only locally.
     private void sendSignUpConfirmEmail(Account newAccount) {
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(newAccount.getEmail());
-        mailMessage.setSubject("Registration verified");
-        mailMessage.setText("/verify-email-token?token=" + newAccount.getEmailVerificationToken() +
+        SimpleMailMessage smm = new SimpleMailMessage();
+        smm.setTo(newAccount.getEmail());
+        smm.setSubject("Registration verified");
+        smm.setText("/verify-email-token?token=" + newAccount.getEmailVerificationToken() +
                 "&email=" + newAccount.getEmail());
-        javaMailSender.send(mailMessage);
+        javaMailSender.send(smm);
     }
 
+    // The principal: 'currently logged user' is the first parameter of UPAT
+    // Allocated UserAccount (account below is 'account' defined in UserAccount.java) as principal
     public void login(Account account) {
-        UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                account.getUsername(),
+        UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(
+                new UserAccount(account),
                 account.getPassword(),
                 List.of(new SimpleGrantedAuthority("ROLE_USER")));
-        SecurityContextHolder.getContext().setAuthentication(token);
+        SecurityContextHolder.getContext().setAuthentication(upat);
     }
 }
