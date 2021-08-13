@@ -45,7 +45,7 @@ public class AccountService {
     }
 
     // Method that sends sign up confirmation email. TODO: Yet done only locally.
-    private void sendSignUpConfirmEmail(Account newAccount) {
+    public void sendSignUpConfirmEmail(Account newAccount) {
         SimpleMailMessage smm = new SimpleMailMessage();
         smm.setTo(newAccount.getEmail());
         smm.setSubject("Registration verified");

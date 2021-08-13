@@ -18,7 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Allows none-members to enter the webpage and generate account.
         // But should not allow none-members to enter other webpages
         http.authorizeRequests()
-                .mvcMatchers("/", "/login", "/signUp", "/verified-email", "/verify-email-token",
+                .mvcMatchers("/", "/login", "/signUp", "/verify-email-token",
                         "/email-login", "/verify-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profiles/*").permitAll()
                 .anyRequest().authenticated();

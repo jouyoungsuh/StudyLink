@@ -12,7 +12,7 @@ public class MainController {
     @GetMapping("/")
     public String home(@CurrentUser Account account, Model model) {
         // Depends on the type of the current user.
-        // The status of the current user (if it is null or not) is defined in CurrentUser.java. If anonymousUser, returns null and else return account
+        // The status of the user (if it is null or not) is defined in CurrentUser.java. If anonymousUser, returns null and else return account
         if (account != null) {
             model.addAttribute(account);
         }

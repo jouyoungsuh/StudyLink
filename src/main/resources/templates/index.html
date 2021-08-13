@@ -8,7 +8,7 @@
     <body class="bg-light">
     <div th:replace="fragments.html :: main-nav"></div>
     <div class="alert alert-warning" role="alert" th:if="${account != null && !account.emailVerified}">
-        To complete the registration, please check your <a href="#" th:href="@{/verified-email}" class="alert-link">verification email</a>.
+        To complete the registration, please check your <a href="#" th:href="@{/verify-email}" class="alert-link">verification email</a>.
     </div>
 
 

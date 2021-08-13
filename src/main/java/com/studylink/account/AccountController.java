@@ -2,19 +2,15 @@ package com.studylink.account;
 
 import com.studylink.domain.Account;
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
-import java.time.LocalDateTime;
 
 @Controller
 @RequiredArgsConstructor
@@ -57,15 +53,15 @@ public class AccountController {
         Account account = accountRepository.findByEmail(email);
 
         // Returns the email verification page. Handles error if there's any
-        String view = "account/verified-email";
+        String view = "account/verify-email";
         if (account == null) {
             model.addAttribute("error", "wrong.email");
-            return "account/verified-email";
+            return "verify-email";
         }
 
         if (!account.isValidToken(token)) {
             model.addAttribute("error", "wrong.token");
-            return "account/verified-email";
+            return "verify-email";
         }
 
         // Set necessary changes to the user account such as account creation date and etc
@@ -75,6 +71,25 @@ public class AccountController {
         model.addAttribute("numberOfUser", accountRepository.count());
         model.addAttribute("username", account.getUsername());
         return view;
+    }
+
+    @GetMapping("/verify-email")
+    public String verifyEmail(@CurrentUser Account account, Model model) {
+        model.addAttribute("email", account.getEmail());
+        return "account/verify-email";
+    }
+
+    // Sends the email again upon the request
+    @GetMapping("/resend-verification-email")
+    public String resendConfirmEmail(@CurrentUser Account account, Model model) {
+        if (!account.canSendConfirmEmail()) {
+            model.addAttribute("error", "We already sent verification 1 hour ago.");
+            model.addAttribute("email", account.getEmail());
+            return "account/verify-email";
+        }
+
+        accountService.sendSignUpConfirmEmail(account);
+        return "redirect:/";
     }
 
 }

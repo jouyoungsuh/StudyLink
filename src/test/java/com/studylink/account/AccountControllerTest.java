@@ -106,7 +106,7 @@ class AccountControllerTest {
                 .andExpect(model().attributeDoesNotExist("error"))
                 .andExpect(model().attributeExists("username"))
                 .andExpect(model().attributeExists("numberOfUser"))
-                .andExpect(view().name("account/verified-email"))
+                .andExpect(view().name("account/verify-email"))
                 .andExpect(authenticated().withUsername("helloWorld"));
     }
 
@@ -119,7 +119,7 @@ class AccountControllerTest {
                 .param("email", "hello@email.com"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("error"))
-                .andExpect(view().name("account/verified-email"))
+                .andExpect(view().name("account/verify-email"))
                 .andExpect(unauthenticated());
     }
 
