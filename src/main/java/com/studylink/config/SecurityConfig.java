@@ -22,6 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/email-login", "/verify-email-login", "/login-link").permitAll()
                 .mvcMatchers(HttpMethod.GET, "/profiles/*").permitAll()
                 .anyRequest().authenticated();
+
+
     }
 
     @Override

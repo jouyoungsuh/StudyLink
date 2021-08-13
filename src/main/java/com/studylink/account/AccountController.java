@@ -53,7 +53,7 @@ public class AccountController {
         Account account = accountRepository.findByEmail(email);
 
         // Returns the email verification page. Handles error if there's any
-        String view = "account/verify-email";
+        String view = "account/verified-email";
         if (account == null) {
             model.addAttribute("error", "wrong.email");
             return "verify-email";
