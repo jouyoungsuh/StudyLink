@@ -53,15 +53,14 @@ public class AccountController {
         Account account = accountRepository.findByEmail(email);
 
         // Returns the email verification page. Handles error if there's any
-        String view = "account/verified-email";
         if (account == null) {
             model.addAttribute("error", "wrong.email");
-            return "verify-email";
+            return "account/verified-email";
         }
 
         if (!account.isValidToken(token)) {
             model.addAttribute("error", "wrong.token");
-            return "verify-email";
+            return "account/verified-email";
         }
 
         // Set necessary changes to the user account such as account creation date and etc
@@ -70,7 +69,7 @@ public class AccountController {
 
         model.addAttribute("numberOfUser", accountRepository.count());
         model.addAttribute("username", account.getUsername());
-        return view;
+        return "account/verified-email";
     }
 
     @GetMapping("/verify-email")
